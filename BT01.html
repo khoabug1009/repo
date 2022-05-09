@@ -31,7 +31,7 @@
 			</ul>
 		</div>
 		
-			<div  style="display: flex;" >
+			<div  style="display: flex;"  ng-show="isSet(1)">
 				<p><input type="text" name="" placeholder=" họ tên" ng-model = "Userinput.hoten"></p>
 				<p><input type="text" name="" placeholder="tuổi" ng-model = "Userinput.tuoi"></p>
 				<select ng-model = "Userinput.lop">
@@ -75,10 +75,12 @@
 				<p>Thêm sinh viên</p>
 				<form  ng-submit="addsinhvien(form)" >
 					<p>họ và tên <input type="text" ng-model="form.hoten" ></p>
-					<p>Tuoi <input type="number" ng-model="form.tuoi" ></p>
+					<p>năm sinh <input type="date" ng-model="tuoi" ></p>
 					<p>lớp
 						<select ng-model="form.lop">
-							<optgroup ng-repeat="grad in khoi" label="{{grad.name}}">
+							<optgroup ng-repeat="grad in khoi" label="{{grad.name}}" >
+								<!-- <p>{{grad.name}}</p> -->
+								
 								
 								<option ng-repeat="clas in grad.lop">{{clas.name}}</option>
 								
@@ -164,10 +166,10 @@
 		];
 		$scope.khoi = khoi;
 		var SinhVien = [
-			{hoten: "khoa", tuoi:"21",lop:"lop11a"},
-			{hoten: "manh", tuoi:"23",lop:"lop11b"},
-			{hoten: "manh", tuoi:"23",lop:"lop12a"},
-			{hoten: "manh", tuoi:"23",lop:"lop12b"}
+			{hoten: "khoa", tuoi:21,lop:"lop11a"},
+			{hoten: "manh", tuoi:23,lop:"lop11b"},
+			{hoten: "manh", tuoi:23,lop:"lop12a"},
+			{hoten: "manh", tuoi:23,lop:"lop12b"}
 			
 		];
 		// delete $scope.searchhoten;
@@ -185,15 +187,24 @@
 						lop:''
 					};
 		var indexStudent = 1;
-		
+		$scope.tuoi = '';
 		$scope.addsinhvien = function(form){
 						$scope.form = {
 						hoten:'',
 						tuoi:'',
 						lop:''
+
 					};
+					if (form.hoten=="") {
+						alert("data must be entered in this field");
+					}else{
+						form.tuoi = new Date().getFullYear()- $scope.tuoi.getFullYear();
 						$scope.SinhVien.push(form);
+						
 						$scope.setTab(1);
+					}
+						
+
 					}
 		// $scope.addsinhvien = function(form){
 		// 	$scope.SinhVien.push(form);
