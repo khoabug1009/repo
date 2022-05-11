@@ -106,7 +106,7 @@
 				<p>Thêm sinh viên</p>
 				<form  ng-submit="addsinhvien(form)" class="form-horizontal">
 					<p>họ và tên <input type="text" ng-model="form.hoten" ></p>
-					<p>năm sinh <input type="date" ng-model="form.birthdate" ></p>
+					<p>năm sinh <input type="date" ng-model="tuoi" ></p>
 					<p>lớp
 						<select ng-model="form.lop">
 							<optgroup ng-repeat="kho in khoi1" >
@@ -173,7 +173,7 @@
 					<form >
 						
 						Nhap ten: <input type="text" name="" ng-model="sinh.hoten">
-						Nhap tuoi: <input type="date" name="" ng-model="sinh.birthdate">
+						Nhap tuoi: <input type="text" name="" ng-model="sinh.tuoi">
 						<p>lớp
 						<select ng-model="sinh.lop">
 							<optgroup ng-repeat="kho in khoi1" >
@@ -216,10 +216,10 @@
 		$scope.khoi = khoi;
 		
 		var SinhVien = [
-			{hoten: "khoa", tuoi:22,lop:"lop11a", birthdate: new Date("01/01/2000") },
-			{hoten: "manh", tuoi:22,lop:"lop11b", birthdate: new Date("01/01/2000")},
-			{hoten: "huy", tuoi:22,lop:"lop12a", birthdate: new Date("01/01/2000")},
-			{hoten: "nam", tuoi:22,lop:"lop12b", birthdate: new Date("01/01/2000")}
+			{hoten: "khoa", tuoi:21,lop:"lop11a"},
+			{hoten: "manh", tuoi:34,lop:"lop11b"},
+			{hoten: "huy", tuoi:45,lop:"lop12a"},
+			{hoten: "nam", tuoi:22,lop:"lop12b"}
 			
 		];
 		$scope.SinhVien = SinhVien;
@@ -256,11 +256,11 @@
 					if (form.hoten=="") {
 						alert("data must be entered in this field");
 					}else{
-						form.tuoi = new Date().getFullYear()- form.birthdate.getFullYear();
+						form.tuoi = new Date().getFullYear()- $scope.tuoi.getFullYear();
 						$scope.SinhVien.push(form);
 						
 						$scope.setTab(1);
-						alert("Have successfull added")
+						alert("Have successfull")
 					}
 						
 
@@ -305,7 +305,6 @@
 			$scope.formeditclass.name = editclass.name;
 			$scope.formeditclass.khoi = $scope.formeditclass.name;
 			$scope.indexclass = index;
-
 
 		}
 		$scope.saveEdit = function(){
