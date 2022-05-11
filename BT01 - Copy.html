@@ -11,6 +11,7 @@
 	
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
 	<style type="text/css">
 		ul{
 			list-style-type: none;
@@ -88,7 +89,7 @@
 						<p>Tên lớp: <input type="text" name="" ng-model="form.name"></p>
 						<p>Thuộc lớp:
 							<select >
-								<optgroup ng-repeat="kho in khoi" >
+								<optgroup ng-repeat="kho in khoi1" >
 							
 									<option >{{kho.name}}</option>
 							
@@ -105,7 +106,7 @@
 				<p>Thêm sinh viên</p>
 				<form  ng-submit="addsinhvien(form)" class="form-horizontal">
 					<p>họ và tên <input type="text" ng-model="form.hoten" ></p>
-					<p>năm sinh <input type="date" ng-model="tuoi" ></p>
+					<p>năm sinh <input type="date" ng-model="form.birthdate" ></p>
 					<p>lớp
 						<select ng-model="form.lop">
 							<optgroup ng-repeat="kho in khoi1" >
@@ -152,7 +153,7 @@
 					</tr>
 				</thead>
 				<tbody >
-					<tr ng-repeat="sinh in filteredTodos | filter:search" align="center" width="30px" >
+					<tr ng-repeat="sinh in SinhVien | filter:search" align="center" width="30px" >
 						<td>{{$index}}</td>
 						<td>{{sinh.hoten}}</td>
 						<td>{{sinh.tuoi}}</td>
@@ -172,7 +173,7 @@
 					<form >
 						
 						Nhap ten: <input type="text" name="" ng-model="sinh.hoten">
-						Nhap tuoi: <input type="text" name="" ng-model="sinh.tuoi">
+						Nhap tuoi: <input type="date" name="" ng-model="sinh.birthdate">
 						<p>lớp
 						<select ng-model="sinh.lop">
 							<optgroup ng-repeat="kho in khoi1" >
@@ -215,29 +216,29 @@
 		$scope.khoi = khoi;
 		
 		var SinhVien = [
-			{hoten: "khoa", tuoi:21,lop:"lop11a"},
-			{hoten: "manh", tuoi:34,lop:"lop11b"},
-			{hoten: "huy", tuoi:45,lop:"lop12a"},
-			{hoten: "nam", tuoi:22,lop:"lop12b"}
+			{hoten: "khoa", tuoi:22,lop:"lop11a", birthdate: new Date("01/01/2000") },
+			{hoten: "manh", tuoi:22,lop:"lop11b", birthdate: new Date("01/01/2000")},
+			{hoten: "huy", tuoi:22,lop:"lop12a", birthdate: new Date("01/01/2000")},
+			{hoten: "nam", tuoi:22,lop:"lop12b", birthdate: new Date("01/01/2000")}
 			
 		];
 		$scope.SinhVien = SinhVien;
 
-		$scope.SinhVien = [],
-		$scope.currentPage = 1,
-		$scope.numPerPage = 10,
-		$scope.maxSize = 5;
-		for(var i = 0; i < 100; i++){
-			var Student = {hoten: "khoa" + i, tuoi:21,lop:"lop11a"};
+		// $scope.SinhVien = [],
+		// $scope.currentPage = 1,
+		// $scope.numPerPage = 10,
+		// $scope.maxSize = 5;
+		// for(var i = 0; i < 100; i++){
+		// 	var Student = {hoten: "khoa" + i, tuoi:21,lop:"lop11a"};
 
-			SinhVien.push(Student);
-		}
-		$scope.$watch('currentPage + numPerPage', function() {
-    		var begin = (($scope.currentPage - 1) * $scope.numPerPage),
-    		 end = begin + $scope.numPerPage;
+		// 	SinhVien.push(Student);
+		// }
+		// $scope.$watch('currentPage + numPerPage', function() {
+  //   		var begin = (($scope.currentPage - 1) * $scope.numPerPage),
+  //   		 end = begin + $scope.numPerPage;
     
-    	$scope.filteredTodos = $scope.SinhVien.slice(begin, end);
- 		 });
+  //   	$scope.filteredTodos = $scope.SinhVien.slice(begin, end);
+ 	// 	 });
 		
 		
 		
@@ -255,10 +256,11 @@
 					if (form.hoten=="") {
 						alert("data must be entered in this field");
 					}else{
-						form.tuoi = new Date().getFullYear()- $scope.tuoi.getFullYear();
+						form.tuoi = new Date().getFullYear()- form.birthdate.getFullYear();
 						$scope.SinhVien.push(form);
 						
 						$scope.setTab(1);
+						alert("Have successfull added")
 					}
 						
 
@@ -303,6 +305,7 @@
 			$scope.formeditclass.name = editclass.name;
 			$scope.formeditclass.khoi = $scope.formeditclass.name;
 			$scope.indexclass = index;
+
 
 		}
 		$scope.saveEdit = function(){
