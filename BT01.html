@@ -113,7 +113,7 @@
 							
 						</select>
 					</p>
-					<input type="submit"  value="lưu" class="btn btn-primary disabled">
+					<input type="submit"  value="lưu" class="btn-primary">
 				</form>
 			</div>
 			<div ng-show="isSet(7)">
@@ -238,8 +238,8 @@
 			});
 			
 			$scope.sort = function(keyname){
-                            $scope.sortKey = keyname;   //set the sortKey to the param passed
-                            $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+                            $scope.sortKey = keyname;   
+                            $scope.reverse = !$scope.reverse;
                     }
             //paging lop
 
@@ -260,7 +260,8 @@
 				$scope.hien_themHV = true;
 				$scope.main = true;
 				$scope.setTab(1);
-				alert()
+				$scope.SinhVienDefault.push(temp);
+				alert("  have successfully added ")
 			};
 			$scope.addlop = function(form){
 				$scope.form = {
