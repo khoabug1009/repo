@@ -4,11 +4,11 @@
 		<title>ezStudy</title>
 		<meta charset="utf-8">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-		<meta timten="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/underscore@1.13.3/underscore-umd-min.js"></script>
 		<style type="text/css">
 			ul{
 				list-style-type: none;
@@ -23,301 +23,296 @@
 			}
 		</style>
 	</head>
-</head>
-<body ng-controller="TabController">
-	<div ng-controller="nested-repeat">
-		<div class="breadcrumb">
-			<ul>
-				<li>ezStudy</li>
-				<li ng-class="{active:isSet(1)}"><a href ng-click="setTab(1)">Học Sinh</a></li>
-				<li ng-class="{active:isSet(5)}"><a href ng-click=" setTab(5)">Lớp</a></li>
-			</ul>
+	<body ng-controller="TabController">
+		<div ng-controller="nested-repeat">
+			<div class="breadcrumb">
+				<ul>
+					<li>ezStudy</li>
+					<li ng-class="{active:isSet(1)}"><a href ng-click="setTab(1)">Học Sinh</a></li>
+					<li ng-class="{active:isSet(5)}"><a href ng-click=" setTab(5)">Lớp</a></li>
+				</ul>
+			</div>
+			
+			<div  style="display: flex;"  ng-show="isSet(1)">
+				<p><input type="text"  placeholder=" họ tên" ng-model = "Userinput.hoten"></p>
+				<p><input type="text"  placeholder="tuổi" ng-model = "Userinput.tuoi"></p>
+				<select ng-model = "Userinput.lop">
+					<optgroup ng-repeat="kho in khoi1" >
+						
+						<option >{{kho.name}}</option>
+						
+					</optgroup>
+					
+				</select>
+			<button ng-click="searchsinhvien()" class="btn-info" >tìm kiếm</a></button>
+			
 		</div>
 		
-		<div  style="display: flex;"  ng-show="isSet(1)">
-			<p><input type="text" timten="" placeholder=" họ tên" ng-model = "Userinput.hoten"></p>
-			<p><input type="text" timten="" placeholder="tuổi" ng-model = "Userinput.tuoi"></p>
-			<select ng-model = "Userinput.lop">
-				<optgroup ng-repeat="kho in khoi1" >
-					
-					<option >{{kho.timten}}</option>
-					
-				</optgroup>
+		<div >
+			
+			
+			<div ng-show="isSet(5)" class="table-responsive">
+				<div><button ng-class="{active: isSet(6)}" href ng-click="setTab(6)">Tạo lớp</button></div>
+				<table border="1px solid blue" class="table-condensed">
+					<thead>
+						<tr>
+							<td>STT</td>
+							<td>Lop</td>
+							<td>Thao tac</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="kho in khoi1" >
+							<td >{{$index}}</td>
+							<td >{{kho.name}}</td>
+							<td>
+								<button ng-class="{active: isSet(7)}" href ng-click="setTab(7);loadformedit(kho,$index)">sửa</button>
+								<button ng-click="removelop(kho,index)">xóa</button>
+							</td>
+							
+						</tr>
+					</tbody>
+				</table>
 				
-			</select>
-		<button ng-click="searchsinhvien()" class="btn-info" >tìm kiếm</a></button>
-		
-	</div>
-	
-	<div >
-		
-		
-		<div ng-show="isSet(5)" class="table-responsive">
-			<div><button ng-class="{active: isSet(6)}" href ng-click="setTab(6)">Tạo lớp</button></div>
-			<table border="1px solid blue" class="table-condensed">
-				<thead>
-					<tr>
-						<td>STT</td>
-						<td>Lop</td>
-						<td>Thao tac</td>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="kho in khoi1" >
-						<td >{{$index}}</td>
-						<td >{{kho.timten}}</td>
-						<td>
-							<button ng-class="{active: isSet(7)}" href ng-click="setTab(7);loadformedit(kho,$index)">sửa</button>
-							<button ng-click="removelop(kho,index)">xóa</button>
-						</td>
-						
-					</tr>
-				</tbody>
-			</table>
-			
-		</div>
-		<div ng-show="isSet(6)">
-			<form ng-submit="addlop(form)">
-				<p>Thêm lớp</p>
-				<p>Tên lớp: <input type="text" timten="" ng-model="form.timten"></p>
-				<p>Thuộc lớp:
-					<select >
-						<optgroup ng-repeat="kho in khoi1" >
-							
-							<option >{{kho.timten}}</option>
-							
-						</optgroup>
-						
-					</select>
-				</p>
-				<input type="submit" timten="" value="Lưu">
-			</form>
-		</div>
-		
-		<div ng-show="isSet(2)">
-			<p>Thêm sinh viên</p>
-			<form  ng-submit="addsinhvien(hoten,tuoi,lop)" class="form-horizontal">
-				<p>họ và tên <input type="text" ng-model="hoten" ></p>
-				<p>năm sinh <input type="date" ng-model="tuoi" ></p>
-				<p>lớp
-					<select ng-model="lop">
-						<optgroup ng-repeat="kho in khoi1" >
-							
-							<option >{{kho.timten}}</option>
-							
-						</optgroup>
-						
-					</select>
-				</p>
-				<input type="submit" timten="" value="lưu" class="btn btn-primary disabled">
-			</form>
-		</div>
-		<div ng-show="isSet(7)">
-			<form ng-submit="saveEditlop()">
-				<p>sửa lớp</p>
-				<p>Tên lớp: <input type="text" timten="" ng-model="formeditclass.timten"></p>
-				<p>Thuộc lớp:
-					<select >
-						<optgroup ng-repeat="kho in khoi1" >
-							
-							<option >{{kho.timten}}</option>
-							
-						</optgroup>
-						
-					</select>
-				</p>
-				<input type="submit" timten="" value="Lưu">
-			</form>
-		</div>
-		<div ng-show="isSet(1)" class="table-responsive">
-			<button ng-class="{active: isSet(2)}" href ng-click="setTab(2)" class="btn-primary">Thêm sinh viên</button>
-			<table border="1px solid blue" class="table-condensed"  >
-				<thead >
-					<tr>
-						<td width="100px" align="center" >STT</td>
-						<td width="100px" align="center" >HO TEN</td>
-						<td width="100px" align="center" >TUOI</td>
-						<td width="100px" align="center" >LOP</td>
-						<td>THAO TAC</td>
-					</tr>
-				</thead>
-				<tbody >
-					<tr ng-repeat="sinh in SinhVien | filter:search" align="center" width="30px" >
-						<td>{{$index}}</td>
-						<td>{{sinh.hoten}}</td>
-						<td>{{tinhtuoi(sinh.tuoi)}}</td>
-						<td>{{sinh.lop}}</td>
-						<td style="display: flex;">
-							<button ng-class="{active: isSet(3)}" href ng-click="setTab(3,sinh);  " class="btn-warning">Sửa</button>
-							<input type="submit" timten="" value="Xóa" ng-click="removesinhvien(sinh)" class="btn-danger">
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<div  ng-controller="nested-repeat" ng-show="isSet(3)">
-			<h1>Sửa học sinh</h1>
-			
-			<div>
-				<form >
-					
-					Nhap ten: <input type="text" timten="" ng-model="sinh.hoten">
-					Nhap ngay sinh: <input type="date" timten="" ng-model="sinh.tuoi">
-					<p>lớp
-						<select ng-model="sinh.lop">
-							<optgroup ng-repeat="kho in khoi1" >
+			</div>
+			<div ng-show="isSet(6)">
+				<form ng-submit="addlop(form)">
+					<p>Thêm lớp</p>
+					<p>Tên lớp: <input type="text" ng-model="form.name"></p>
+					<p>Thuộc lớp:
+						<select >
+							<optgroup ng-repeat="kho in khoi" >
 								
-								<option >{{kho.timten}}</option>
+								<option >{{kho.name}}</option>
 								
 							</optgroup>
 							
 						</select>
 					</p>
-					<button ng-click="saveEdit()" >lưu</button>
+					<input type="submit"  value="Lưu">
 				</form>
+			</div>
+			
+			<div ng-show="isSet(2)">
+				<p>Thêm sinh viên</p>
+				<form  ng-submit="addsinhvien(hoten,tuoi,lop)" class="form-horizontal">
+					<p>họ và tên <input type="text" ng-model="hoten" ></p>
+					<p>năm sinh <input type="date" ng-model="tuoi" ></p>
+					<p>lớp
+						<select ng-model="lop">
+							<optgroup ng-repeat="kho in khoi1" >
+								
+								<option >{{kho.name}}</option>
+								
+							</optgroup>
+							
+						</select>
+					</p>
+					<input type="submit"  value="lưu" class="btn btn-primary disabled">
+				</form>
+			</div>
+			<div ng-show="isSet(7)">
+				<form ng-submit="saveEditlop()">
+					<p>sửa lớp</p>
+					<p>Tên lớp: <input type="text"  ng-model="formeditclass.name"></p>
+					<p>Thuộc lớp:
+						<select >
+							<optgroup ng-repeat="kho in khoi" >
+								
+								<option >{{kho.name}}</option>
+								
+							</optgroup>
+							
+						</select>
+					</p>
+					<input type="submit"  value="Lưu">
+				</form>
+			</div>
+			<div ng-show="isSet(1)" class="table-responsive">
+				<button ng-class="{active: isSet(2)}" href ng-click="setTab(2)" class="btn-primary">Thêm sinh viên</button>
+				<table border="1px solid blue" class="table-condensed"  >
+					<thead >
+						<tr>
+							<td width="100px" align="center" >STT</td>
+							<td width="100px" align="center" >HO TEN</td>
+							<td width="100px" align="center" >TUOI</td>
+							<td width="100px" align="center" >LOP</td>
+							<td>THAO TAC</td>
+						</tr>
+					</thead>
+					<tbody >
+						<tr ng-repeat="sinh in SinhVien " align="center" width="30px" >
+							<td>{{$index}}</td>
+							<td>{{sinh.hoten}}</td>
+							<td>{{tinhtuoi(sinh.tuoi)}}</td>
+							<td>{{sinh.lop}}</td>
+							<td style="display: flex;">
+								<button ng-class="{active: isSet(3)}" href ng-click="setTab(3,sinh);  " class="btn-warning">Sửa</button>
+								<input type="submit"  value="Xóa" ng-click="removesinhvien(sinh)" class="btn-danger">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div  ng-controller="nested-repeat" ng-show="isSet(3)">
+				<h1>Sửa học sinh</h1>
+				
+				<div>
+					<form >
+						
+						Nhap ten: <input type="text"  ng-model="sinh.hoten">
+						Nhap ngay sinh: <input type="date"  ng-model="sinh.tuoi">
+						<p>lớp
+							<select ng-model="sinh.lop">
+								<optgroup ng-repeat="kho in khoi1" >
+									
+									<option >{{kho.name}}</option>
+									
+								</optgroup>
+								
+							</select>
+						</p>
+						<button ng-click="saveEdit()" >lưu</button>
+					</form>
+					
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
-<script type="text/javascript">
-	var myApp = angular.module("myApp",[]);
-	myApp.controller('nested-repeat',  function($scope){
-		
-		var khoi1 = [
-			{timten: "lop11" },
-			{timten: "lop11a" },
-			{timten: "lop11b" },
-			{timten: "lop12" },
-			{timten: "lop12a" },
-			{timten: "lop12b" }
-		];
-		$scope.khoi1 = khoi1;
-		var khoi = [
-			{timten:"lop10"},
-			{timten:"lop11"},
-			{timten:"lop12"}
-		];
-		$scope.khoi = khoi;
-		
-		var SinhVien = [
-			{hoten: "khoa", tuoi:new Date(1992,02,02),lop:"lop11a"},
-			{hoten: "manh", tuoi:new Date(2001,02,02),lop:"lop11b"},
-			{hoten: "huy", tuoi:new Date(1999,02,02),lop:"lop12a"},
-			{hoten: "nam", tuoi:new Date(1994,02,02),lop:"lop12b"}
+	<script type="text/javascript">
+		var myApp = angular.module("myApp",[]);
+		myApp.controller('nested-repeat',  function($scope){
 			
-		];
-		$scope.SinhVien = SinhVien;
-		$scope.SinhVienDefault = angular.copy($scope.SinhVien);
-		// $scope.SinhVien = [],
-		// $scope.currentPtimtuoi = 1,
-		// $scope.numPerPtimtuoi = 10,
-		// $scope.maxSize = 5;
-		// for(var i = 0; i < 100; i++){
-			// 	var Student = {hoten: "khoa" + i, tuoi:21,lop:"lop11a"};
-			// 	SinhVien.push(Student);
-		// }
-		// $scope.$watch('currentPtimtuoi + numPerPtimtuoi', function() {
-		//   		var begin = (($scope.currentPtimtuoi - 1) * $scope.numPerPtimtuoi),
-		//   		 end = begin + $scope.numPerPtimtuoi;
-
-	//   	$scope.filteredTodos = $scope.SinhVien.slice(begin, end);
-		// 	 });
-		
-		
-		
-		$scope.hien_themHV = true;
-		
-		$scope.tuoi = '';
-		
-		$scope.addsinhvien = function(hoten, tuoi, lop){
-			var temp = {hoten: hoten, tuoi: tuoi, lop: lop};
-			$scope.SinhVien.push(temp);
+			var khoi1 = [
+				{name: "lop11" },
+				{name: "lop11a" },
+				{name: "lop11b" },
+				{name: "lop12" },
+				{name: "lop12a" },
+				{name: "lop12b" }
+			];
+			$scope.khoi1 = khoi1;
+			var khoi = [
+				{name:"lop10"},
+				{name:"lop11"},
+				{name:"lop12"}
+			];
+			$scope.khoi = khoi;
+			
+			var SinhVien = [
+				{hoten: "khoa", tuoi:new Date(1992,02,02),lop:"lop11a"},
+				{hoten: "manh", tuoi:new Date(2001,02,02),lop:"lop11b"},
+				{hoten: "huy", tuoi:new Date(1999,02,02),lop:"lop12a"},
+				{hoten: "nam", tuoi:new Date(1994,02,02),lop:"lop12b"}
+				
+			];
+			$scope.SinhVien = SinhVien;
+			$scope.SinhVienDefault = angular.copy($scope.SinhVien);
+			// $scope.SinhVien = [],
+			// $scope.currentPtimtuoi = 1,
+			// $scope.numPerPtimtuoi = 10,
+			// $scope.maxSize = 5;
+			// for(var i = 0; i < 100; i++){
+			// 		var Student = {hoten: "khoa" + i, tuoi:new Date(1992,02,02),lop:"lop11a"};
+			// 		SinhVien.push(Student);
+			// }
+			// $scope.$watch('currentPtimtuoi + numPerPtimtuoi', function() {
+			// 		var begin = (($scope.currentPtimtuoi - 1) * $scope.numPerPtimtuoi),
+			// 		end = begin + $scope.numPerPtimtuoi;
+			// $scope.filteredTodos = $scope.SinhVien.slice(begin, end);
+			// });
+			
+			
+			
 			$scope.hien_themHV = true;
-			$scope.main = true;
-			$scope.setTab(1);
-		};
-
-		$scope.addlop = function(form){
-			$scope.form = {
-				timten: ""
+			
+			$scope.tuoi = '';
+			
+			$scope.addsinhvien = function(hoten, tuoi, lop){
+				var temp = {hoten: hoten, tuoi: tuoi, lop: lop};
+				$scope.SinhVien.push(temp);
+				$scope.hien_themHV = true;
+				$scope.main = true;
+				$scope.setTab(1);
 			};
-			if (form.timten == "") {
-				alert("data must be entered in this field")
-			}else{
-				$scope.khoi1.push(form);
+			$scope.addlop = function(form){
+				$scope.form = {
+					name: ""
+				};
+				if (form.name == "") {
+					alert("data must be entered in this field")
+				}else{
+					$scope.khoi1.push(form);
+					$scope.setTab(5);
+				}
+				
+			}
+			$scope.tinhtuoi = function(ns){
+				return (new Date().getFullYear() - ns.getFullYear());
+			}
+			
+			$scope.removelop = function(khoi1,index){
+				var index = $scope.khoi1.indexOf(khoi1);
+				$scope.khoi1.splice(index,1);
+			}
+			$scope.removesinhvien = function (SinhVien,index) {
+							
+				var index = $scope.SinhVien.indexOf(SinhVien);
+				$scope.SinhVien.splice(index,1);
+			}
+			$scope.indexclass = '';
+			$scope.change_Main_Edit = false;
+			$scope.change = false;
+			$scope.saveEditlop = function(){
+				$scope.khoi1[$scope.indexclass].name = $scope.formeditclass.name;
+				$scope.change = false;
 				$scope.setTab(5);
 			}
-			
-		}
-		$scope.tinhtuoi = function(ns){
-			return (new Date().getFullYear()) - ns.getFullYear();
-		}
-		
-		$scope.removelop = function(khoi1,index){
-			var index = $scope.khoi1.indexOf(khoi1);
-			$scope.khoi1.splice(index,1);
-		}
-		$scope.removesinhvien = function (SinhVien,index) {
-						
-			var index = $scope.SinhVien.indexOf(SinhVien);
-			$scope.SinhVien.splice(index,1);
-		}
-		$scope.indexclass = '';
-		$scope.change_Main_Edit = false;
-		$scope.change = false;
-		$scope.saveEditlop = function(){
-			// $scope.khoi1[$scope.indexclass].timten = $scope.formeditclass.timten;
-			$scope.change = false;
-			$scope.setTab(5);
-		}
-		//edit
-		$scope.formeditclass = {
-			timten:"",
-			khoi:""
-		};
-		$scope.loadformedit = function(editclass, index){
-			$scope.formeditclass.timten = editclass.timten;
-			$scope.formeditclass.khoi = $scope.formeditclass.timten;
-			$scope.indexclass = index;
-		}
-		$scope.saveEdit = function(){
-			$scope.change_Main_Edit = false;
-			$scope.setTab(1);
-		}
-	//search
-		$scope.search = {};
-		$scope.Userinput = {};
-		$scope.searchsinhvien = function () {
-			for(sinh in $scope.Userinput){
-				$scope.search[sinh] = $scope.Userinput[sinh];
-			}
-				var timtuoi = $scope.Userinput.tuoi;
-				var timten = $scope.Userinput.hoten;
-				var timlop = $scope.Userinput.lop;
-				$scope.SinhVien = angular.copy(filter($scope.SinhVienDefault, 
-			function(x) { 
-				return ((timtuoi === null || timtuoi === undefined) || (timtuoi !== null && timtuoi !== undefined && $scope.calculatetimtuoi(x.tuoi) == timtuoi)) &&
-						((timlop === null || timlop === undefined) || (timlop !== null && timlop !== undefined && x.lop == timlop)) &&
-						((timten === null || timten === undefined) || (timten !== null && timten !== undefined && x.hoten.includes(timten)));
-			}));
-
-				
-		}
-		$scope.SinhVien = SinhVien;
-	});
-	myApp.controller('TabController',['$scope',function ($scope) {
-		// body...
-		$scope.tab = 1;
-		$scope.setTab = function (newTab,sinh) {
-			// body...
-			$scope.tab = newTab;
-			$scope.sinh = sinh;
-		};
-		$scope.isSet = function(tabNum){
-			return $scope.tab === tabNum;
+			//edit
+			$scope.formeditclass = {
+				name: "",
+				khoi: ""
 			};
-	}]);
-	
-</script>
+			$scope.loadformedit = function(editclass, index){
+				$scope.formeditclass.name = editclass.name;
+				$scope.formeditclass.khoi = $scope.formeditclass.name;
+				$scope.indexclass = index;
+			}
+			$scope.saveEdit = function(){
+				$scope.change_Main_Edit = false;
+				$scope.setTab(1);
+			}
+		//search
+			$scope.search = {};
+			$scope.Userinput = {};
+			$scope.searchsinhvien = function () {
+				// for(sinh in $scope.Userinput){
+					// 	$scope.search[sinh] = $scope.Userinput[sinh];
+				// }
+					var timtuoi = $scope.Userinput.tuoi;
+					var timten = $scope.Userinput.hoten;
+					var timlop = $scope.Userinput.lop;
+					$scope.SinhVien = angular.copy(_.filter($scope.SinhVienDefault,function(x) {
+					return ((timtuoi === null || timtuoi === undefined) || (timtuoi !== null && timtuoi !== undefined && $scope.tinhtuoi(x.tuoi) == timtuoi)) &&
+							((timlop === null || timlop === undefined) || (timlop !== null && timlop !== undefined && x.lop.includes(timlop))) &&
+							((timten === null || timten === undefined) || (timten !== null && timten !== undefined && x.hoten.includes(timten)));
+				}));
+			}
+			$scope.SinhVien = SinhVien;
+		});
+		myApp.controller('TabController',['$scope',function ($scope) {
+			// body...
+			$scope.tab = 1;
+			$scope.setTab = function (newTab,sinh) {
+				// body...
+				$scope.tab = newTab;
+				$scope.sinh = sinh;
+			};
+			$scope.isSet = function(tabNum){
+				return $scope.tab === tabNum;
+				};
+		}]);
+		
+	</script>
 </body>
 </html>
