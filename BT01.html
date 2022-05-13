@@ -72,7 +72,7 @@
 							<td >{{kho.name}}</td>
 							<td>
 								<button ng-class="{active: isSet(7)}" href ng-click="setTab(7);loadFormEdit(kho,$index)">sửa</button>
-								<button ng-click="removelop(kho,index)">xóa</button>
+								<button ng-click="reMoveLop(kho,index)">xóa</button>
 							</td>
 							
 						</tr>
@@ -218,17 +218,13 @@
 				
 			];
 
-			$scope.SinhVien = SinhVien;
-			$scope.SinhVienDefault = angular.copy($scope.SinhVien);
-
 
 			//paging hoc sinh
 
 
 
 			$scope.SinhVien = [],
-			$scope.c
-			urrentPname = 1,
+			$scope.currentPname = 1,
 			$scope.numPerPname = 10,
 			$scope.maxSize = 5;
 			for(var i = 0; i < 100; i++){
@@ -248,7 +244,12 @@
             //paging lop
 
 
-			//add sinh vien and lop
+
+
+
+			$scope.SinhVien = SinhVien;
+			$scope.SinhVienDefault = angular.copy($scope.SinhVien);
+			
 			$scope.hien_themHV = true;
 			
 			$scope.tuoi = '';
@@ -274,14 +275,13 @@
 				}
 				
 			}
-			// tinh tuoi
 			$scope.tinhTuoi = function(ns){
 				return (new Date().getFullYear() - ns.getFullYear());
 			}
 
 			//remove
 
-			$scope.removelop = function(khoi1,index){
+			$scope.reMoveLop = function(khoi1,index){
 				var index = $scope.khoi1.indexOf(khoi1);
 				$scope.khoi1.splice(index,1);
 			}
@@ -324,10 +324,11 @@
 			$scope.Userinput = {};
 			$scope.searchSinhVien = function () {
 				
-					var timtuoi = $scope.Userinput.tuoi;
-					var timten = $scope.Userinput.hoten;
-					var timlop = $scope.Userinput.lop;
-					$scope.SinhVien = angular.copy(_.filter($scope.SinhVienDefault,function(x) {
+				var timtuoi = $scope.Userinput.tuoi;
+				var timten = $scope.Userinput.hoten;
+				var timlop = $scope.Userinput.lop;
+					//$scope.SinhVienDefault.push();
+				$scope.SinhVien = angular.copy(_.filter($scope.SinhVienDefault,function(x) {
 					return ((timtuoi === null || timtuoi === undefined) || (timtuoi !== null && timtuoi !== undefined && $scope.tinhTuoi(x.tuoi) == timtuoi)) &&
 							((timlop === null || timlop === undefined) || (timlop !== null && timlop !== undefined && x.lop.includes(timlop))) &&
 							((timten === null || timten === undefined) || (timten !== null && timten !== undefined && x.hoten.includes(timten)));
