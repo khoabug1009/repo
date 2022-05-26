@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EZCLOUDModel1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'EZCLOUD.dbo.Person' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Person">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Fullname" Type="nvarchar" MaxLength="50" />
+    <Property Name="Phone_number" Type="nvarchar" MaxLength="50" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="Status" Type="nvarchar" MaxLength="50" />
+    <Property Name="Salary" Type="int" />
+    <Property Name="Workplace" Type="nvarchar" MaxLength="50" />
+    <Property Name="Address" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityContainer Name="EZCLOUDModel1StoreContainer">
+    <EntitySet Name="Person" EntityType="Self.Person" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Person].[ID] AS [ID], 
+    [Person].[Fullname] AS [Fullname], 
+    [Person].[Phone_number] AS [Phone_number], 
+    [Person].[Email] AS [Email], 
+    [Person].[Status] AS [Status], 
+    [Person].[Salary] AS [Salary], 
+    [Person].[Workplace] AS [Workplace], 
+    [Person].[Address] AS [Address]
+    FROM [dbo].[Person] AS [Person]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>
